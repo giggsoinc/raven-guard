@@ -1,16 +1,17 @@
-# Shay-Rolls Guard — Production Protection Engine
+# Raven Guard
 
-> Production watchdog for teams using Claude Code Enterprise.
-> Protects against deletions, truncations, firewall changes, and infrastructure damage.
-> Built by [Giggso](https://giggso.com). Open sourced under MIT.
+> Production protection and incident management for Claude Code.
+> Built by [Giggso](https://giggso.com). MIT License.
+
+*The Three-Eyed Raven sees all. Nothing reaches production unchecked.*
 
 ---
 
 ## What Is This?
 
-Shay-Rolls Guard is the **production protection layer** — a separate product from Shay-Rolls Core.
+Raven Guard is the production protection layer — a separate product from Raven Core.
 
-| | Shay-Rolls Core | Shay-Rolls Guard |
+| | Raven Core | Raven Guard |
 |---|---|---|
 | **Audience** | Developers | DevOps, Architects, Security |
 | **Job** | Coding discipline | Production protection |
@@ -23,12 +24,12 @@ Shay-Rolls Guard is the **production protection layer** — a separate product f
 
 | Agent | Watches | Hard Blocks | Approval Flow |
 |---|---|---|---|
-| `guard-git-watch` | Deletions, force push, config wipes | Force push, config wipe | Flagged deletions |
-| `guard-db-watch` | Truncations, mass deletes, schema drops | TRUNCATE, DROP | >100 rows, index delete |
-| `guard-infra-watch` | Terraform, S3, VMs, network | State file, destroy | S3 delete, VM terminate |
-| `guard-observability-watch` | Logs, metrics, access patterns | — | P1 page, P2 email |
-| `guard-firewall-watch` | Firewall rules, ports, egress | 0.0.0.0/0, RDP, SSH public | Rule changes |
-| `guard-incident-manager` | All Guard alerts | — | P1/P2/P3 + SLA |
+| guard-git-watch | Deletions, force push, config | Force push, config wipe | Flagged deletions |
+| guard-db-watch | Truncations, mass deletes, schema | TRUNCATE, DROP | >100 rows, index delete |
+| guard-infra-watch | Terraform, S3, VMs, network | State file, destroy | S3 delete, VM terminate |
+| guard-observability-watch | Logs, metrics, access patterns | — | P1 page, P2 email |
+| guard-firewall-watch | Firewall rules, ports, egress | 0.0.0.0/0, RDP, SSH public | Rule changes |
+| guard-incident-manager | All Guard alerts | — | P1/P2/P3 + SLA |
 
 ---
 
@@ -51,13 +52,11 @@ Full audit trail in Git history
 
 ## Intentional Deletions
 
-Developers flag intentional deletions in commit messages:
-
 ```bash
 git commit -m "refactor: remove legacy module [GUARD:ALLOW-DELETE]"
 ```
 
-This triggers approval flow instead of hard block.
+Triggers approval flow instead of hard block.
 
 ---
 
@@ -71,40 +70,27 @@ This triggers approval flow instead of hard block.
 
 ---
 
-## Getting Started
+## Audit Trail
 
-```bash
-cd ~/AntiGravity_Projects/YourProject
-bash ../shay-rolls-claude-guard/shay-rolls-guard-init.sh
+All events encrypted and compressed → S3 / GCS / Azure Blob / OCI:
+
+```
+s3://bucket/raven/{project}/{dev}/{github_id_or_tag}/{date}.log.gz.enc
 ```
 
 ---
 
-## Repo Structure
+## Install
 
+```bash
+cd YourProject
+bash ../raven-guard/raven-guard-setup.sh
 ```
-shay-rolls-claude-guard/
-├── README.md
-├── CLAUDE.md
-├── LICENSE
-├── shay-rolls-guard-init.sh
-├── guard/
-│   ├── agents/
-│   │   ├── guard-git-watch.md
-│   │   ├── guard-db-watch.md
-│   │   ├── guard-infra-watch.md
-│   │   ├── guard-observability-watch.md
-│   │   ├── guard-firewall-watch.md
-│   │   └── guard-incident-manager.md
-│   ├── hooks/
-│   └── ci/
-└── manifest/
-    ├── manifest.schema.json
-    └── manifest.secrets.example.json
-```
+
+Requires [Raven Core](https://github.com/giggsoinc/raven) installed first.
 
 ---
 
 ## License
 
-MIT — Built by [Giggso](https://giggso.com).
+MIT — [Giggso](https://giggso.com)
