@@ -1,7 +1,8 @@
 # Raven Guard
 
-> Production protection and incident management for Claude Code.
-> Built by [Giggso](https://giggso.com). MIT License.
+> Claude Code implementation of the Raven production protection layer.
+> Part of the [Raven platform](https://github.com/giggsoinc/raven-core). MIT License.
+> Built by [Giggso Inc](https://github.com/giggsoinc).
 
 *The Three-Eyed Raven sees all. Nothing reaches production unchecked.*
 
