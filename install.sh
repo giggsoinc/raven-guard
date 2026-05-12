@@ -1,25 +1,25 @@
 #!/bin/bash
-# Shay-Rolls Guard — One-Line Installer
-# Usage: curl -fsSL https://raw.githubusercontent.com/giggso/shay-rolls-claude-guard/main/install.sh | bash
-# Requires: Shay-Rolls Core installed first
+# Raven Guard — One-Line Installer
+# Usage: curl -fsSL https://raw.githubusercontent.com/giggsoinc/raven-guard/main/install.sh | bash
+# Requires: Raven Core installed first
 
 set -e
 G='\033[0;32m' Y='\033[1;33m' R='\033[0;31m' B='\033[0;34m' W='\033[1m' N='\033[0m'
 
-REPO="https://github.com/giggso/shay-rolls-claude-guard.git"
-INSTALL_DIR="$HOME/.shay-rolls-claude-guard"
+REPO="https://github.com/giggsoinc/raven-guard.git"
+INSTALL_DIR="$HOME/.raven-guard"
 BIN_DIR="$HOME/.local/bin"
 
 echo ""
 echo -e "${W}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${N}"
-echo -e "${W}  Shay-Rolls Guard — Installer${N}"
+echo -e "${W}  Raven Guard — Installer${N}"
 echo -e "${W}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${N}"
 echo ""
 
 # Check Core is installed
-command -v shay-rolls-init &>/dev/null || [ -f "$HOME/.shay-rolls-claude/shay-rolls-init.sh" ] || {
-    echo -e "${R}❌ Shay-Rolls Core not installed.${N}"
-    echo -e "   Run first: ${B}curl -fsSL https://raw.githubusercontent.com/giggso/shay-rolls-claude/main/install.sh | bash${N}"
+command -v raven-setup &>/dev/null || [ -f "$HOME/.raven/raven-setup.sh" ] || {
+    echo -e "${R}❌ Raven Core not installed.${N}"
+    echo -e "   Run first: ${B}curl -fsSL https://raw.githubusercontent.com/giggsoinc/raven/main/install.sh | bash${N}"
     exit 1
 }
 
@@ -29,23 +29,34 @@ if [ -d "$INSTALL_DIR/.git" ]; then
     cd "$INSTALL_DIR" && git pull --quiet
     echo -e "${G}✅ Updated${N}"
 else
-    echo -e "${B}Downloading Shay-Rolls Guard...${N}"
+    echo -e "${B}Downloading Raven Guard...${N}"
     git clone --quiet --depth=1 "$REPO" "$INSTALL_DIR"
     echo -e "${G}✅ Downloaded to $INSTALL_DIR${N}"
 fi
 
 mkdir -p "$BIN_DIR"
-cat > "$BIN_DIR/shay-rolls-guard-init" << CMDEOF
+cat > "$BIN_DIR/raven-guard-setup" << CMDEOF
 #!/bin/bash
-bash "$INSTALL_DIR/shay-rolls-guard-setup.sh" "\$@"
+bash "$INSTALL_DIR/raven-guard-setup.sh" "\$@"
 CMDEOF
-chmod +x "$BIN_DIR/shay-rolls-guard-init"
+chmod +x "$BIN_DIR/raven-guard-setup"
+
+SHELL_RC=""
+[ -f "$HOME/.zshrc"  ] && SHELL_RC="$HOME/.zshrc"
+[ -f "$HOME/.bashrc" ] && SHELL_RC="$HOME/.bashrc"
+if [ -n "$SHELL_RC" ] && ! grep -q "$BIN_DIR" "$SHELL_RC" 2>/dev/null; then
+    echo "export PATH=\"\$PATH:$BIN_DIR\"" >> "$SHELL_RC"
+fi
+export PATH="$PATH:$BIN_DIR"
 
 echo ""
 echo -e "${W}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${N}"
-echo -e "${G}  ✅ Guard installed${N}"
+echo -e "${G}  ✅ Raven Guard installed${N}"
 echo -e "${W}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${N}"
 echo ""
 echo -e "  To add Guard to any project (after Core init):"
-echo -e "  ${B}cd YourProject && shay-rolls-guard-init${N}"
+echo -e "  ${B}cd YourProject && raven-guard-setup${N}"
+echo ""
+echo -e "  To update Guard later:"
+echo -e "  ${B}cd ~/.raven-guard && git pull${N}"
 echo ""
