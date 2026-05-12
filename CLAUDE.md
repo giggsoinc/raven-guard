@@ -1,6 +1,6 @@
-# CLAUDE.md — Shay-Rolls Guard
+# CLAUDE.md — Raven Guard
 
-This project operates under **Shay-Rolls Guard v1.0** protection.
+This project operates under **Raven Guard v2.8** protection.
 Read this before any action.
 
 ---
@@ -61,4 +61,4 @@ SLA breach → next level up
 
 ---
 
-*Shay-Rolls Guard v1.0 — github.com/giggso/shay-rolls-claude-guard*
+*Raven Guard v2.8 — github.com/giggsoinc/raven-guard*
