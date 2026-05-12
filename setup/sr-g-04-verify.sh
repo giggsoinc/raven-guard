@@ -15,10 +15,10 @@ chk "$PROJECT_DIR/.claude/agents/guard-incident-manager.md"    "guard-incident-m
 chk "$PROJECT_DIR/.claude/scripts/guard-notify.py"             "guard-notify.py"
 chk "$PROJECT_DIR/.claude/scripts/guard-weekly-digest.py"      "guard-weekly-digest.py"
 chk "$PROJECT_DIR/.claude/scripts/audit-log.py"                "audit-log.py"
-chk "$PROJECT_DIR/.shay-rolls/manifest.secrets.json"           "manifest.secrets.json"
+chk "$PROJECT_DIR/.raven/manifest.secrets.json"           "manifest.secrets.json"
 
-SPERM=$(stat -f "%Mp%Lp" "$PROJECT_DIR/.shay-rolls/manifest.secrets.json" 2>/dev/null || \
-        stat -c "%a"     "$PROJECT_DIR/.shay-rolls/manifest.secrets.json" 2>/dev/null)
+SPERM=$(stat -f "%Mp%Lp" "$PROJECT_DIR/.raven/manifest.secrets.json" 2>/dev/null || \
+        stat -c "%a"     "$PROJECT_DIR/.raven/manifest.secrets.json" 2>/dev/null)
 [ "$SPERM" = "600" ] && echo -e "  ${G}✅ secrets chmod 600${N}" || \
     echo -e "  ${R}❌ secrets chmod wrong${N}" && ((ERR++))
 

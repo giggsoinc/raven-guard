@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Shay-Rolls Guard — Weekly Digest Sender
+# Raven Guard — Weekly Digest Sender
 # Reads digest.log, formats, sends to Prism7, clears log
 # Run via cron: 0 8 * * 1 python3 .claude/scripts/guard-weekly-digest.py
 # Silent if not configured or no events this week
@@ -12,10 +12,10 @@ def safe(fn):
     except: return None
 
 def load_secrets():
-    return safe(lambda: json.load(open(".shay-rolls/manifest.secrets.json"))) or {}
+    return safe(lambda: json.load(open(".raven/manifest.secrets.json"))) or {}
 
 def main():
-    digest_path = ".shay-rolls/guard/digest.log"
+    digest_path = ".raven/guard/digest.log"
     if not os.path.exists(digest_path):
         sys.exit(0)  # Nothing to send
 
@@ -42,12 +42,12 @@ def main():
             "summary": {"p1": len(p1), "p2": len(p2), "p3": len(p3), "total": len(events)},
             "events":  events,
             "to":      inbox,
-            "subject": f"[WEEKLY] Shay-Rolls Guard — {len(events)} events — {os.path.basename(os.getcwd())}"
+            "subject": f"[WEEKLY] Raven Guard — {len(events)} events — {os.path.basename(os.getcwd())}"
         }).encode()
         if webhook:
             req = urllib.request.Request(
                 webhook, data=payload,
-                headers={"Content-Type":"application/json","X-Source":"shay-rolls-guard"}
+                headers={"Content-Type":"application/json","X-Source":"raven-guard"}
             )
             urllib.request.urlopen(req, timeout=5)
     safe(_send)

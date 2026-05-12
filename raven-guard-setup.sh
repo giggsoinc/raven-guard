@@ -1,6 +1,6 @@
 #!/bin/bash
-# Shay-Rolls Guard — Setup
-# Usage: bash /path/to/shay-rolls-claude-guard/shay-rolls-guard-setup.sh
+# Raven Guard — Setup
+# Usage: bash /path/to/raven-claude-guard/raven-guard-setup.sh
 # Requires: Core already installed in target project
 
 set -e
@@ -9,7 +9,7 @@ W='\033[1m' N='\033[0m'
 
 echo ""
 echo -e "${W}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${N}"
-echo -e "${W}  Shay-Rolls Guard — Setup v1.3${N}"
+echo -e "${W}  Raven Guard — Setup v1.3${N}"
 echo -e "${W}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${N}\n"
 
 source "$SR_GUARD_DIR/setup/sr-g-01-questions.sh"      || exit 1

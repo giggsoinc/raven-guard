@@ -5,7 +5,7 @@ G='\033[0;32m' N='\033[0m'
 mkdir -p "$PROJECT_DIR/.claude/agents"
 mkdir -p "$PROJECT_DIR/.claude/scripts"
 mkdir -p "$PROJECT_DIR/.claude/skills/andie"
-mkdir -p "$PROJECT_DIR/.shay-rolls/guard"
+mkdir -p "$PROJECT_DIR/.raven/guard"
 
 for A in guard-git-watch guard-db-watch guard-infra-watch \
           guard-observability-watch guard-firewall-watch guard-incident-manager; do

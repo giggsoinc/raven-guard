@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Shay-Rolls Guard — Notifier
+# Raven Guard — Notifier
 # PagerDuty (P1) + Prism7 email (P1/P2/P3) + weekly digest
 # NEVER errors. NEVER blocks. Silent if not configured.
 # Usage: python3 guard-notify.py --severity P1 --detail "Force push on main"
@@ -12,7 +12,7 @@ def safe(fn):
     except: return None
 
 def load_secrets():
-    return safe(lambda: json.load(open(".shay-rolls/manifest.secrets.json"))) or {}
+    return safe(lambda: json.load(open(".raven/manifest.secrets.json"))) or {}
 
 def notify_pagerduty(detail, secrets):
     """P1 only. Silent if not configured."""
@@ -24,7 +24,7 @@ def notify_pagerduty(detail, secrets):
             "routing_key":  key,
             "event_action": "trigger",
             "payload": {
-                "summary":   f"[Shay-Rolls Guard P1] {detail}",
+                "summary":   f"[Raven Guard P1] {detail}",
                 "severity":  "critical",
                 "source":    os.path.basename(os.getcwd()),
                 "timestamp": datetime.now(timezone.utc).isoformat()
@@ -46,7 +46,7 @@ def notify_prism7(severity, detail, secrets):
         if not webhook and not inbox:
             return
 
-        subject = f"[{severity}-SHAY-ROLLS-GUARD] {detail[:80]}"
+        subject = f"[{severity}-RAVEN-GUARD] {detail[:80]}"
         payload = json.dumps({
             "severity": severity,
             "detail":   detail,
@@ -60,7 +60,7 @@ def notify_prism7(severity, detail, secrets):
             req = urllib.request.Request(
                 webhook, data=payload,
                 headers={"Content-Type": "application/json",
-                         "X-Source": "shay-rolls-guard"}
+                         "X-Source": "raven-guard"}
             )
             urllib.request.urlopen(req, timeout=5)
     safe(_notify)
@@ -70,8 +70,8 @@ def append_digest(severity, detail, secrets):
     def _append():
         if not secrets.get("guard", {}).get("weekly_digest", False):
             return
-        os.makedirs(".shay-rolls/guard", exist_ok=True)
-        with open(".shay-rolls/guard/digest.log", "a") as f:
+        os.makedirs(".raven/guard", exist_ok=True)
+        with open(".raven/guard/digest.log", "a") as f:
             f.write(json.dumps({
                 "ts": datetime.now(timezone.utc).isoformat(),
                 "severity": severity, "detail": detail,
